@@ -50,10 +50,13 @@ taxa_info = as.data.frame(tax_table(phylo_smoking))
 taxa_info$ASV = rownames(taxa_info)
 
 ```
-# ALPHA DIVERSITY ANALYSIS
+# ALPHA DIVERSITY ANALYSIS  ##############################
+```{r, message=FALSE}
 
+```
 
-#BETA DIVERSITY ANALYSIS
+#BETA DIVERSITY ANALYSIS  ##############################
+### Processing in different beta analysis methods using the phyloseq package 
 ```{r, message=FALSE}
 load("phyloseq_object_final_highcount.RData")
 samp_dat_wdiv <- data.frame(sample_data(phyloseq_object_final_highcount),
@@ -75,10 +78,8 @@ adonis2(dm_weighted_unifrac ~ `smoker`*LDL_category, data=samp_dat_wdiv)#weighte
 adonis2(dm_unweighted_unifrac ~ `smoker`*LDL_category, data=samp_dat_wdiv)#unweighted unifrac
 adonis2(dm_bray ~ `smoker`*LDL_category, data=samp_dat_wdiv)#bray-curtis
 adonis2(dm_jaccard ~ `smoker`*LDL_category, data=samp_dat_wdiv)#jaccard
-
-
 ```
-## Creating PCA plots for effect of LDL in smokers, nonsmokers. Manuscript figure 2.
+## Creating PCA plots for effect of LDL in smokers, nonsmokers (Manuscript figure 2)
 ```{r, message=FALSE}
 # Beta Diversity figure panel will include Weighted Unifrac PCoA Plot of the smoker and LDL categories, 
 # divided into 2 plots, one with smokers only and the other with nonsmokers only
@@ -124,7 +125,7 @@ gg_pcoa_bray_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.bray, c
 ```
 
 
-# DESEQ2 ANALYSIS
+# DESEQ2 ANALYSIS ##############################
 ## Processing phyloseq object into DESeq2 (smoking)
 ```{r, message=FALSE}
 ### Tidy up phyloseq object, relevel to set low LDL as baseline
@@ -159,7 +160,7 @@ res_genus_combined = res_sig %>%
 res_genus_combined <- res_genus_combined[order(res_genus_combined$log2FoldChange_avg),]
 
 ```
-## Using DESeq2 data to produce barplots + volcano plots (smoking) @IMOGEN EDIT
+## Using DESeq2 data to produce barplots + volcano plots (smoking) (Manuscript figure 3) @IMOGEN EDIT
 ```{r}
 sighits_smok = ggplot(data = res_genus_combined, aes(x= log2FoldChange_avg,y=reorder(Genus, -(as.numeric(log2FoldChange_avg))), fill = pvalues))+
   geom_bar(stat = "identity") +
@@ -209,14 +210,14 @@ res_nonsmoke_genus_combined = res_nonsmoke_sig %>%
 res_nonsmoke_genus_combined <- res_nonsmoke_genus_combined[order(res_nonsmoke_genus_combined$log2FoldChange_avg),]
 
 ```
-## Using DESeq2 data to produce barplots + volcano plots (NONsmoking) @IMOGEN EDIT
+## Using DESeq2 data to produce barplots + volcano plots (NONsmoking) (Supplemental Figure 3) @IMOGEN EDIT
 ```{r}
 sighits_nonsmok = ggplot(data = res_nonsmoke_genus_combined, aes(x= log2FoldChange_avg,y=reorder(Genus, -(as.numeric(log2FoldChange_avg))), fill = pvalues))+
   geom_bar(stat = "identity") +
   theme_bw()+
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)
 ### Save barplot
-ggsave("nonsmoking_LDL_phyloseq_DeSeq.png", sighits_nonsmok)
+# ggsave("nonsmoking_LDL_phyloseq_DeSeq.png", sighits_nonsmok)
 
 vol_plot_nonsmok <- res_nonsmoke %>%
   mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>% #new column in results table 
@@ -225,10 +226,11 @@ vol_plot_nonsmok <- res_nonsmoke %>%
   labs(x = "Log2 Fold Change", y = "-Log10 (padj)")
 vol_plot
 ### Save volcano plot
-ggsave(filename="vol_plot_nonsmokingLDL.png",vol_plot_nonsmok)
+# ggsave(filename="vol_plot_nonsmokingLDL.png",vol_plot_nonsmok)
 ```
 
-# PICRUST ANALYSIS - Setup
+# PICRUST ANALYSIS   ##############################
+### Setup by loading in data and processing for functional analyses
 ```{r, message=FALSE}
 ### PICRUSt2 is pickier about the formatting of the data, so first run this block to ensure everything is as needed.
 ###Load a custom function by Chris to provide all DESeq2 results
@@ -303,7 +305,7 @@ nonsmoking_res_desc = nonsmoking_res_desc[, -c(8:13)]
 smoking_res_desc_sig = smoking_res_desc %>% filter(pvalue <0.05)
 nonsmoking_res_desc_sig = nonsmoking_res_desc %>% filter(pvalue <0.05)
 ```
-## Graph PICRUSt results in barplots, filtered for >1 log2 fold chance
+## Graph PICRUSt results in barplots, filtered for >1 log2 fold chance (Manuscript Figure 4)
 ```{r}
 smoking_res_desc_sig <- smoking_res_desc_sig[order(smoking_res_desc_sig$log2FoldChange),]
 nonsmoking_res_desc_sig <- nonsmoking_res_desc_sig[order(nonsmoking_res_desc_sig$log2FoldChange),]
@@ -348,7 +350,7 @@ ggplot(data = figure4_res_above1, aes(x= log2FoldChange,y=reorder(description, -
     legend.text = element_text(size = 12, face = "bold"))
 ```
 
-## Using ggpicrust to create PCA plots, supplemental figure 4
+## Using ggpicrust to create PCA plots (Supplemental Figure 4)
 ```{r, message=FALSE}
 PCA_smoking_all <- pathway_pca(abundance = abundance_data %>% column_to_rownames("pathway"), 
                          metadata = metadata, group = "smoker")+
