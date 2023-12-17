@@ -23,6 +23,7 @@ library(ggprism)
 library(patchwork)
 library(ggh4x)
 library(apeglm)
+library(picante)
 
 #read abundance data
 abundance_file <- "picrust2_out_pipeline/pathways_out/path_abun_unstrat.tsv"
@@ -48,11 +49,121 @@ phylo_smoking <-  subset_samples(phyloseq_object_final, smoker == "Yes")
 phylo_nonsmoking <-  subset_samples(phyloseq_object_final, smoker == "No")
 taxa_info = as.data.frame(tax_table(phylo_smoking))
 taxa_info$ASV = rownames(taxa_info)
-
 ```
 # ALPHA DIVERSITY ANALYSIS  ##############################
+### Alpha diversity plots and stats for LDL (Figure 1)
 ```{r, message=FALSE}
+load("phyloseq_object_final_highcount.RData")
+estimate_richness(phyloseq_object_final_highcount)
+phylo_dist <- pd(t(otu_table(phyloseq_object_final_highcount)), phy_tree(phyloseq_object_final_highcount),
+                 include.root=F)
+sample_data(phyloseq_object_final_highcount)$PD <- phylo_dist$PD
 
+### Categorise data by smoking and diet for analysis
+sample_data(phyloseq_object_final_highcount)[["legend2"]] <- paste(sample_data(phyloseq_object_final_highcount)[[32]], sample_data(phyloseq_object_final_highcount)[[38]])
+sample_data(phyloseq_object_final_highcount)[["legend"]] = paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
+
+### For the manuscript - total count within each category
+paste("n('Smoking') = ",length(meta$smoker[meta$smoker == 'Yes']))
+paste("n('Nonsmoking') = ",length(meta$smoker[meta$smoker == 'No']))
+paste("n(Smoking, high fiber) = ",length(meta$legend2[meta$legend2 == 'Yes high']))
+paste("n(Smoking, low fiber) = ",length(meta$legend2[meta$legend2 == 'Yes low']))
+paste("n('Nonsmoking high fiber') = ",length(meta$legend2[meta$legend2 == 'No high']))
+paste("n('Nonsmoking low fiber') = ",length(meta$legend2[meta$legend2 == 'No low']))
+paste("n('Smoking high LDL') = ",length(meta$legend[meta$legend == 'Yes high']))
+paste("n('Smoking low LDL') = ",length(meta$legend[meta$legend == 'Yes low']))
+
+### Define colours and diversity metrics for graph
+sample_colors <- c("lightblue", "maroon", "olivedrab","orange")
+diversity_measures <- c("Observed", "Shannon", "Chao1", "ACE", "Simpson", "InvSimpson", "Fisher")
+
+### Generate alpha-diversity plot for LDL categories 
+alpha_LDL <- phyloseq_object_final_highcount %>%                                                             
+  plot_richness(x = "legend",measures = diversity_measures) +                             
+  geom_boxplot(aes(fill = legend), show.legend = FALSE)+             #make violin plot, set fill aes to sampletype
+  theme_linedraw()+                                                     #change theme to classic
+  xlab(NULL)+                                                           #no label on x-axis
+  theme(axis.text.y.left = element_text(size = 20),                     #adjust y-axis text
+        axis.text.x = element_text(size = 20, hjust = 0.5, vjust = 1, angle = -90),           #adjust x-axis label position
+        axis.title.y = element_text(size = 20))+                        #adjust y-axis title
+  theme(strip.text = element_text(face = "bold", size = 25))+           #adjust headings
+  scale_fill_manual(values = sample_colors)+                            #set fill colors
+  theme(plot.title=element_text(size = 25, face = "bold", hjust = 0.5))
+ggsave("figures/alpha_LDL.png",alpha_LDL)
+
+### Generate and print statistical scores
+meta = sample_data(phyloseq_object_final_highcount)
+alphadiv <- estimate_richness(phyloseq_object_final_highcount, measures = c("Observed", "Shannon", "Chao1", "ACE", "Simpson", "InvSimpson", "Fisher")) %>% rownames_to_column(var = "legend") 
+colnames(alphadiv)[1] = "uniqueID"
+meta_alpha = inner_join(meta, alphadiv, by = "uniqueID")
+meta_alpha = do.call(cbind.data.frame, meta_alpha)
+
+res.aov2 <- aov(Shannon ~ legend, data = meta_alpha)
+summary(res.aov2)
+TukeyHSD(res.aov2, which = "legend")
+res.aov3 <- aov(Observed ~ legend, data = meta_alpha)
+summary(res.aov3)
+TukeyHSD(res.aov3, which = "legend")
+res.aov4 <- aov(Chao1 ~ legend, data = meta_alpha)
+summary(res.aov4)
+TukeyHSD(res.aov4, which = "legend")
+res.aov5 <- aov(ACE ~ legend, data = meta_alpha)
+summary(res.aov5)
+TukeyHSD(res.aov5, which = "legend")
+res.aov6 <- aov(Simpson ~ legend, data = meta_alpha)
+summary(res.aov6)
+TukeyHSD(res.aov6, which = "legend")
+res.aov7 <- aov(InvSimpson ~ legend, data = meta_alpha)
+summary(res.aov7)
+TukeyHSD(res.aov7, which = "legend")
+res.aov8 <- aov(Fisher ~ legend, data = meta_alpha)
+summary(res.aov8)
+TukeyHSD(res.aov8, which = "legend")
+```
+
+### Alpha diversity plots and stats for Fiber (Supplemental Figure 2)
+```{r, message=FALSE}
+### Generate alpha-diversity plot for Fiber categories
+alpha_fiber <- phyloseq_object_final_highcount %>%                                                              
+  plot_richness(x = "legend2",measures = diversity_measures) +                              
+  geom_boxplot(aes(fill = legend2), show.legend = FALSE)+             #make violin plot, set fill aes to sampletype
+  theme_linedraw()+                                                     #change theme to classic
+  xlab(NULL)+                                                           #no label on x-axis
+  theme(axis.text.y.left = element_text(size = 20),                     #adjust y-axis text
+        axis.text.x = element_text(size = 20, hjust = 0.5, vjust = 1, angle = -90),           #adjust x-axis label position
+        axis.title.y = element_text(size = 20))+                        #adjust y-axis title
+  theme(strip.text = element_text(face = "bold", size = 25))+           #adjust headings
+  scale_fill_manual(values = sample_colors)+                            #set fill colors
+  theme(plot.title=element_text(size = 25, face = "bold", hjust = 0.5))
+ggsave("figures/alpha_fiber.png",alpha_fiber)
+
+### Generate and print statistical scores
+meta = sample_data(phyloseq_object_final_highcount)
+alphadiv <- estimate_richness(phyloseq_object_final_highcount, measures = c("Observed", "Shannon", "Chao1", "ACE", "Simpson", "InvSimpson", "Fisher")) %>% rownames_to_column(var = "legend2") 
+colnames(alphadiv)[1] = "uniqueID"
+meta_alpha = inner_join(meta, alphadiv, by = "uniqueID")
+meta_alpha = do.call(cbind.data.frame, meta_alpha)
+
+res.aov20 <- aov(Shannon ~ legend2, data = meta_alpha)
+summary(res.aov20)
+TukeyHSD(res.aov20, which = "legend2")
+res.aov21 <- aov(Observed ~ legend2, data = meta_alpha)
+summary(res.aov21)
+TukeyHSD(res.aov21, which = "legend2")
+res.aov22 <- aov(Chao1 ~ legend2, data = meta_alpha)
+summary(res.aov22)
+TukeyHSD(res.aov22, which = "legend2")
+res.aov23 <- aov(ACE ~ legend2, data = meta_alpha)
+summary(res.aov23)
+TukeyHSD(res.aov23, which = "legend2")
+res.aov24 <- aov(Simpson ~ legend2, data = meta_alpha)
+summary(res.aov24)
+TukeyHSD(res.aov24, which = "legend2")
+res.aov25 <- aov(Simpson ~ legend2, data = meta_alpha)
+summary(res.aov25)
+TukeyHSD(res.aov25, which = "legend2")
+
+head(alphadiv)
 ```
 
 #BETA DIVERSITY ANALYSIS  ##############################
@@ -93,15 +204,18 @@ gg_pcoa_wunifrac_smoking_LDL <- plot_ordination(phyloseq_object_smoking, ord.wei
   labs(col="LDL category") + stat_ellipse(type = "norm")#smoking-LDL
 gg_pcoa_wunifrac_nonsmoking_LDL <- plot_ordination(phyloseq_object_nonsmoking, ord.weighted_unifrac_nonsmoking, color = "LDL_category") +
   labs(col="LDL category") + stat_ellipse(type = "norm")#nonsmoking-LDL
-gg_pcoa_wunifrac_smoking_LDL
-gg_pcoa_wunifrac_nonsmoking_LDL
+
+p <- c(gg_pcoa_wunifrac_smoking_LDL,gg_pcoa_wunifrac_nonsmoking_LDL)
+save_plots(p)
+ggsave(gg_pcoa_wunifrac_smoking_LDL,file="gg_pcoa_wunifrac_smoking_LDL.png")
+ggsave(gg_pcoa_wunifrac_nonsmoking_LDL,file="gg_pcoa_wunifrac_nonsmoking_LDL.png")
 ```
 ## Creating PCA plots between all smoking, LDL, fiber categories (Supplemental Figure 2)
 ```{r, message=FALSE}
 #Making a new column in the metadata to combined fibre and smoking
-sample_data(phyloseq_object_final_highcount)[[40]] = paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[38]])
+sample_data(phyloseq_object_final_highcount)[[40]] <-  paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[38]])
 #Making a new column in the metadata to combined LDL and smoking
-sample_data(phyloseq_object_final_highcount)[[41]] = paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
+sample_data(phyloseq_object_final_highcount)[[41]] <-  paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
 
 ### PCoA plot ###
 # weighted unifrac
@@ -122,6 +236,8 @@ gg_pcoa_bray_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.bray,
   labs(col="smoker, fibre category") + stat_ellipse(type = "norm")#smoker-fibre
 gg_pcoa_bray_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "V41") +
   labs(col="smoker, LDL category") + stat_ellipse(type = "norm")#smoker-LDL
+
+gg
 ```
 
 
