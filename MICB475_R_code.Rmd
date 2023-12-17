@@ -205,10 +205,8 @@ gg_pcoa_wunifrac_smoking_LDL <- plot_ordination(phyloseq_object_smoking, ord.wei
 gg_pcoa_wunifrac_nonsmoking_LDL <- plot_ordination(phyloseq_object_nonsmoking, ord.weighted_unifrac_nonsmoking, color = "LDL_category") +
   labs(col="LDL category") + stat_ellipse(type = "norm")#nonsmoking-LDL
 
-p <- c(gg_pcoa_wunifrac_smoking_LDL,gg_pcoa_wunifrac_nonsmoking_LDL)
-save_plots(p)
-ggsave(gg_pcoa_wunifrac_smoking_LDL,file="gg_pcoa_wunifrac_smoking_LDL.png")
-ggsave(gg_pcoa_wunifrac_nonsmoking_LDL,file="gg_pcoa_wunifrac_nonsmoking_LDL.png")
+ggsave(filename="figures/gg_pcoa_wunifrac_smoking_LDL.png",plot=gg_pcoa_wunifrac_smoking_LDL)
+ggsave(filename="figures/gg_pcoa_wunifrac_nonsmoking_LDL.png",plot=gg_pcoa_wunifrac_nonsmoking_LDL)
 ```
 ## Creating PCA plots between all smoking, LDL, fiber categories (Supplemental Figure 2)
 ```{r, message=FALSE}
@@ -237,7 +235,12 @@ gg_pcoa_bray_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.bray,
 gg_pcoa_bray_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "V41") +
   labs(col="smoker, LDL category") + stat_ellipse(type = "norm")#smoker-LDL
 
-gg
+ggsave(filename="figures/gg_pcoa_wunifrac_fibre.png" , plot=gg_pcoa_wunifrac_fibre)
+ggsave(filename="figures/gg_pcoa_wunifrac_LDL.png", plot= gg_pcoa_wunifrac_LDL)
+ggsave(filename="figures/gg_pcoa_unwunifrac_fibre.png", plot=gg_pcoa_unwunifrac_fibre)
+ggsave(filename="figures/gg_pcoa_unwunifrac_LDL.png", plot=gg_pcoa_unwunifrac_LDL)
+ggsave(filename="figures/gg_pcoa_bray_fibre.png", plot=gg_pcoa_bray_fibre)
+ggsave(filename="figures/gg_pcoa_bray_LDL.png", plot=gg_pcoa_bray_LDL)
 ```
 
 
@@ -282,8 +285,7 @@ sighits_smok = ggplot(data = res_genus_combined, aes(x= log2FoldChange_avg,y=reo
   geom_bar(stat = "identity") +
   theme_bw()+
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)
-### Save barplot
-# ggsave("smoking_LDL_phyloseq_DeSeq.png", sighits_smok)
+# ggsave("figures/smoking_LDL_phyloseq_DeSeq.png", sighits_smok)
 
 vol_plot_smok <- res %>%
   mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>% #new column in results table 
@@ -291,8 +293,7 @@ vol_plot_smok <- res %>%
   geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) + 
   labs(x = "Log2 Fold Change", y = "-Log10 (padj)")
 vol_plot
-### Save volcano plot
-# ggsave(filename="vol_plot_smokingLDL.png",vol_plot_smok)
+# ggsave(filename="figures/vol_plot_smokingLDL.png",vol_plot_smok)
 ```
 ## Processing phyloseq object into DESeq2 (NONsmoking)
 ```{r}
@@ -324,7 +325,6 @@ res_nonsmoke_genus_combined = res_nonsmoke_sig %>%
   summarize(log2FoldChange_avg = mean(log2FoldChange), pvalues =  combine_pvalues(pvalue)) %>%
   na.omit()
 res_nonsmoke_genus_combined <- res_nonsmoke_genus_combined[order(res_nonsmoke_genus_combined$log2FoldChange_avg),]
-
 ```
 ## Using DESeq2 data to produce barplots + volcano plots (NONsmoking) (Supplemental Figure 3) @IMOGEN EDIT
 ```{r}
@@ -332,8 +332,7 @@ sighits_nonsmok = ggplot(data = res_nonsmoke_genus_combined, aes(x= log2FoldChan
   geom_bar(stat = "identity") +
   theme_bw()+
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)
-### Save barplot
-# ggsave("nonsmoking_LDL_phyloseq_DeSeq.png", sighits_nonsmok)
+# ggsave(filename="figures/nonsmoking_LDL_phyloseq_DeSeq.png", sighits_nonsmok)
 
 vol_plot_nonsmok <- res_nonsmoke %>%
   mutate(significant = padj<0.01 & abs(log2FoldChange)>2) %>% #new column in results table 
@@ -341,8 +340,7 @@ vol_plot_nonsmok <- res_nonsmoke %>%
   geom_point(aes(x=log2FoldChange, y=-log10(padj), col=significant)) + 
   labs(x = "Log2 Fold Change", y = "-Log10 (padj)")
 vol_plot
-### Save volcano plot
-# ggsave(filename="vol_plot_nonsmokingLDL.png",vol_plot_nonsmok)
+# ggsave(filename="figures/vol_plot_nonsmokingLDL.png",vol_plot_nonsmok)
 ```
 
 # PICRUST ANALYSIS   ##############################
@@ -433,7 +431,8 @@ nonsmoking_res_above1 <- nonsmoking_res_desc_sig %>%
   filter(log2FoldChange > 1 | log2FoldChange < -1) %>% arrange(log2FoldChange)
 
 ### Barplot for smoking results
-ggplot(data = smoking_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), fill = pvalue))+ theme_bw()+
+picrust_barplot_smoking <- ggplot(data = smoking_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), 
+                                                                 fill = pvalue))+ theme_bw()+
   geom_bar(stat = "identity") +
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
   xlim(-0.5,2.5)+
@@ -441,7 +440,8 @@ ggplot(data = smoking_res_above1, aes(x= log2FoldChange,y=reorder(description, -
   ggtitle("LDL-Associated Pathway Changes in Smokers")
 
 ### Barplot for nonsmoking results
-ggplot(data = nonsmoking_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), fill = pvalue))+ theme_bw()+
+picrust_barplot_nonsmoking <- ggplot(data = nonsmoking_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), 
+                                         fill = pvalue))+ theme_bw()+
   geom_bar(stat = "identity") +
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
   xlim(-0.5,2.5)+
@@ -454,7 +454,8 @@ nonsmoking_res_above1$smoking="NS"
 figure4_res_above1 <- rbind(smoking_res_above1, nonsmoking_res_above1)
 figure4_res_above1$smoking = factor(figure4_res_above1$smoking, levels=c("S","NS"))
 
-ggplot(data = figure4_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), fill = pvalue))+ theme_bw()+
+picrust_barplot_all <- ggplot(data = figure4_res_above1, aes(x= log2FoldChange,y=reorder(description, -(as.numeric(log2FoldChange))), 
+                                      fill = pvalue))+ theme_bw()+
   geom_bar(stat = "identity") +
   scale_fill_gradient(low = "yellow", high = "red", na.value = NA)+
   xlim(-0.5,2.5)+
@@ -464,6 +465,10 @@ ggplot(data = figure4_res_above1, aes(x= log2FoldChange,y=reorder(description, -
     size = 10, color = "black"), 
     axis.text.y = element_text(size = 18, face = "bold"), 
     legend.text = element_text(size = 12, face = "bold"))
+
+ggsave(filename="figures/picrust_barplot_smoking.png",picrust_barplot_smoking)
+ggsave(filename="figures/picrust_barplot_nonsmoking.png",picrust_barplot_nonsmoking)
+ggsave(filename="figures/picrust_barplot_all.png",picrust_barplot_all)
 ```
 
 ## Using ggpicrust to create PCA plots (Supplemental Figure 4)
@@ -480,8 +485,9 @@ PCA_nonsmok_LDL <- pathway_pca(abundance = filtered_LDL_nonsmok %>% column_to_ro
 PCA_smok_LDL <- pathway_pca(abundance = filtered_LDL_smok %>% column_to_rownames("pathway"), 
                             metadata = metadata_smoking, group = "LDL_category")+
                                 ggtitle("            Smokers")
-PCA_smoking_all
-PCA_LDL_all
-PCA_nonsmok_LDL
-PCA_smok_LDL
+ggsave(filename="figures/picrust_PCA_smoking_all",PCA_smoking_all)
+ggsave(filename="figures/picrust_PCA_LDL_all",PCA_LDL_all)
+ggsave(filename="figures/picrust_PCA_nonsmok_LDL",PCA_nonsmok_LDL)
+ggsave(filename="figures/picrust_PCA_smok_LDL",PCA_smok_LDL)
+
 ```
