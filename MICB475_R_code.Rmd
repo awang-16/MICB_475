@@ -4,7 +4,7 @@ authors: "IP,AW,TW,SD,SK"
 date: "2023-11-07"
 output: html_document
 function: performs analyses on microbiome data for alpha+beta diversity, differential expression (taxonomic+functional). Code is broken into sections according to function, and is set to store all figures as .png files in the accompanying "figures" directory. It can be run to reproduce all figures and statistics contained within the submitted manuscript.
-organisation: Alpha diversity (line 54), Beta diversity (line 170), DESeq2 analysis (line 248), and PICRUSt2 analysis (line 345)
+organisation: Alpha diversity (line 54), Beta diversity (line 173), DESeq2 analysis (line 251), and PICRUSt2 analysis (line 348)
 ---
 
 ```{r setup, include=FALSE}
@@ -62,8 +62,10 @@ phylo_dist <- pd(t(otu_table(phyloseq_object_final_highcount)), phy_tree(phylose
 sample_data(phyloseq_object_final_highcount)$PD <- phylo_dist$PD
 
 ### Categorise data by smoking and diet for analysis
-sample_data(phyloseq_object_final_highcount)[["legend2"]] <- paste(sample_data(phyloseq_object_final_highcount)[[32]], sample_data(phyloseq_object_final_highcount)[[38]])
+sample_data(phyloseq_object_final_highcount)[["legend2"]] <- paste(sample_data(phyloseq_object_final_highcount)[[32]], sample_data(phyloseq_object_final_highcount)[[38]]) 
+#legend2 shows smoking/fiber status
 sample_data(phyloseq_object_final_highcount)[["legend"]] = paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
+#legend shows smoking/LDL status
 
 ### For the manuscript - total count within each category
 paste("n('Smoking') = ",length(meta$smoker[meta$smoker == 'Yes']))
@@ -212,29 +214,29 @@ ggsave(filename="figures/gg_pcoa_wunifrac_nonsmoking_LDL.png",plot=gg_pcoa_wunif
 ```
 ## Creating PCA plots between all smoking, LDL, fiber categories (Supplemental Figure 2)
 ```{r, message=FALSE}
-#Making a new column in the metadata to combined fibre and smoking
-sample_data(phyloseq_object_final_highcount)[[40]] <-  paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[38]])
-#Making a new column in the metadata to combined LDL and smoking
-sample_data(phyloseq_object_final_highcount)[[41]] <-  paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
+### If not already done in alpha analysis, categorise data by smoking and diet for analysis
+sample_data(phyloseq_object_final_highcount)[["legend2"]] <- paste(sample_data(phyloseq_object_final_highcount)[[32]], sample_data(phyloseq_object_final_highcount)[[38]]) 
+#legend2 shows smoking/fiber status
+sample_data(phyloseq_object_final_highcount)[["legend"]] = paste(sample_data(phyloseq_object_final_highcount)[[32]],sample_data(phyloseq_object_final_highcount)[[37]])
+#legend shows smoking/LDL status
 
 ### PCoA plot ###
 # weighted unifrac
 ord.weighted_unifrac <- ordinate(phyloseq_object_final_highcount, method="PCoA", distance="unifrac", weighted=TRUE)
-gg_pcoa_wunifrac_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.weighted_unifrac, color = "V40") +
-  labs(col="smoker, fibre category") + stat_ellipse(type = "norm")#smoker-fibre
-gg_pcoa_wunifrac_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.weighted_unifrac, color = "V41") +
+gg_pcoa_wunifrac_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.weighted_unifrac, color = "legend2") +labs(col="smoker, fibre category") + stat_ellipse(type = "norm")#smoker-fibre
+gg_pcoa_wunifrac_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.weighted_unifrac, color = "legend") +
   labs(col="smoker, LDL category") + stat_ellipse(type = "norm")#smoker-LDL
 # unweighted unifrac
 ord.unweighted_unifrac <- ordinate(phyloseq_object_final_highcount, method="PCoA", distance="unifrac", weighted=FALSE)
-gg_pcoa_unwunifrac_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.unweighted_unifrac, color = "V40") +
+gg_pcoa_unwunifrac_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.unweighted_unifrac, color = "legend2") +
   labs(col="smoker, fibre category") + stat_ellipse(type = "norm")#smoker-fibre
-gg_pcoa_unwunifrac_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.unweighted_unifrac, color = "V41") +
+gg_pcoa_unwunifrac_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.unweighted_unifrac, color = "legend") +
   labs(col="smoker, LDL category") + stat_ellipse(type = "norm")#smoker-LDL
 # bray-curtis
 ord.bray <- ordinate(phyloseq_object_final_highcount, method="PCoA", distance="bray")
-gg_pcoa_bray_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "V40") +
+gg_pcoa_bray_fibre <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "legend2") +
   labs(col="smoker, fibre category") + stat_ellipse(type = "norm")#smoker-fibre
-gg_pcoa_bray_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "V41") +
+gg_pcoa_bray_LDL <- plot_ordination(phyloseq_object_final_highcount, ord.bray, color = "legend") +
   labs(col="smoker, LDL category") + stat_ellipse(type = "norm")#smoker-LDL
 
 ggsave(filename="figures/gg_pcoa_wunifrac_fibre.png" , plot=gg_pcoa_wunifrac_fibre)
@@ -488,7 +490,7 @@ PCA_smok_LDL <- pathway_pca(abundance = filtered_LDL_smok %>% column_to_rownames
 
 ggsave(filename="figures/picrust_PCA_smoking_all.png",PCA_smoking_all)
 ggsave(filename="figures/picrust_PCA_LDL_all.png",PCA_LDL_all)
-ggsave(filename="figures/picrust_PCA_nonsmok_LD.png",PCA_nonsmok_LDL)
+ggsave(filename="figures/picrust_PCA_nonsmok_LDL.png",PCA_nonsmok_LDL)
 ggsave(filename="figures/picrust_PCA_smok_LDL.png",PCA_smok_LDL)
 
 ```
