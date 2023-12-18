@@ -3,6 +3,17 @@ This repository contains ongoing notes on project 2, compiled by AW, IP, SD, SA,
 
 The file MICB475_R_code.Rmd should be run to reproduce all figures seen in the manuscript. It loads data produced by QIIME2 and PICRUSt2 processing, the bash scripts for which are also displayed here.
 
+### R code outline
+
+**Alpha diversity** (line 54): perform alpha-diversity analyses (Observed, Shannon, Chao1, ACE, Simpson, InvSimpson, and Fisher) on the data as categorised both by smoking and LDL status, and by smoking and fiber status.
+
+Beta diversity (line 173)
+
+DESeq2 analysis (line 251)
+
+PICRUSt2 analysis (line 348)
+
+
 ### Papers referenced
 
 [Gut microbiota is associated with obesity and cardiometabolic disease in a population in the midst of Westernization](https://www.nature.com/articles/s41598-018-29687-x) Scientific Reports, Sept 2018.
