@@ -19,17 +19,9 @@ qiime demux summarize \
   --i-data demux.qza \
   --o-visualization demux.qzv
 
-## local computer terminal, copying file
-cd Desktop/micb475-project2
-mkdir colombia
-cd colombia
-scp root@10.19.139.116:/data/colombia/demux.qzv .
-##
+## local computer terminal, demux.qzv copied
 
 ### truncation length of 225 was chosen 
-
-# created session 'ses1'
-screen -S ses1
 
 # denoising and clustering in working directory /data/colombia
 # Determine ASVs with DADA2
@@ -56,12 +48,8 @@ qiime feature-table tabulate-seqs \
   --i-data rep-seqs.qza \
   --o-visualization rep-seqs.qzv
 
-## local computer, copying files
-cd Desktop/micb475-project2/colombia
-scp root@10.19.139.116:/data/colombia/stats.qzv .
-scp root@10.19.139.116:/data/colombia/table.qzv .
-scp root@10.19.139.116:/data/colombia/rep-seqs.qzv .
-##
+## local computer, copied stats.qzv, table.qzv, rep-seqs.qzv
+
 #### Oct 2, 2023 - SKA ####
 
 ### For picrust2, we will need to reproduce the rep-seqs.qza and table-qza files with the new categories, demux file is fine
@@ -117,9 +105,6 @@ rm table.qzv
 
 ### truncation length of 248 was chosen 
 
-# created session 'ses1'
-screen -S ses1
-
 # denoising and clustering in working directory /data/colombia
 # Determine ASVs with DADA2
 qiime dada2 denoise-single \
@@ -147,18 +132,13 @@ qiime feature-table tabulate-seqs \
   --i-data rep-seqs.qza \
   --o-visualization rep-seqs.qzv
 
-## local computer, copying files
-cd Desktop/micb475-project2/colombia
-scp root@10.19.139.116:/data/colombia/stats.qzv .
-scp root@10.19.139.116:/data/colombia/table.qzv .
-scp root@10.19.139.116:/data/colombia/rep-seqs.qzv .
-##
+## local computer, copied stats.qzv, table.qzv, rep-seqs.qzv
 
 ### Taxonomic Analysis ###
 
 # Training Classifier #
 # Extract your amplicon of interest from the reference database
-# "The V4 hypervariable region of the 16S rRNA gene from each sample was amplified using primers F515 (5′-GTGCCAGCMGCCGCGGTAA-3′) and R806 (5′-GGACTACHVGGGTWTCTAAT-3′)"
+# The V4 hypervariable region of the 16S rRNA gene from each sample was amplified using primers F515 (5′-GTGCCAGCMGCCGCGGTAA-3′) and R806 (5′-GGACTACHVGGGTWTCTAAT-3′)
 qiime feature-classifier extract-reads \
   --i-sequences /mnt/datasets/silva_ref_files/silva-138-99-seqs.qza \
   --p-f-primer GTGCCAGCMGCCGCGGTAA \
@@ -221,12 +201,7 @@ qiime phylogeny align-to-tree-mafft-fasttree \
 
 #### Oct 14, 2023 - SKA ####
 
-## local computer, copying files
-cd Desktop/micb475-project2/colombia
-scp root@10.19.139.116:/data/colombia/taxonomy.qzv .
-scp root@10.19.139.116:/data/colombia/taxa-bar-plots.qzv .
-scp root@10.19.139.116:/data/colombia/feature-frequency-filtered-table-no-mitochondria-no-chloroplast.qzv .
-##
+## local computer, copied taxonomy.qzv, taxa-bar-plots.qzv, feature-frequency-filtered-table-no-mitochondria-no-chloroplast.qzv
 
 #### Oct 14, 2023 - TW ####
 # Alpha-rarefaction
@@ -273,11 +248,7 @@ qiime diversity alpha-group-significance \
  --m-metadata-file metadata_categorized_CL.txt \
  --o-visualization core-metrics-results/evenness-group-significance.qzv
 
-## local computer, copying files
-cd Desktop/micb475-project2/colombia
-scp root@10.19.139.116:/data/colombia/core-metrics-results/faith-pd-group-significance.qzv .
-scp root@10.19.139.116:/data/colombia/core-metrics-results/evenness-group-significance.qzv .
-
+## local computer, copied faith-pd-group-significance.qzv, evenness-group-significance.qzv
 
 #### Oct 19, 2023 - IP ####
 
