@@ -21,7 +21,7 @@ Organised by date, descending.
 
 - Update picrust bar charts as above (filter for change)
 - Produce labelled volcano plots using EnhancedVolcano package
-- Meeting with Chris **Dec 6th** to go through manuscript – aim to have draft sent by previous day for discussion.
+- Meeting with CL **Dec 6th** to go through manuscript – aim to have draft sent by previous day for discussion.
 
 
 ## Nov 23
@@ -44,7 +44,7 @@ Mention that there are two points in the nonsmokers volcano plots – possible N
 
 **Goal for next week:** have slides! And go through the bacteria in Fig4, connect to pathways in Fig3
 
-**Goal for Dec 7th:** send Chris a manuscript draft.
+**Goal for Dec 7th:** send CL a manuscript draft.
 
 
 ## Nov 9
@@ -56,39 +56,41 @@ Mention that there are two points in the nonsmokers volcano plots – possible N
 
 ### Next steps:
 
-Tiffany + Alice –> **DESeq analysis** to figure out if there are a few specific genus / species that are affected in abundance, resulting in changes in metabolic information during picrust. Run on taxonomic-level table (phyloseq object w/OTU table + taxonomy file, prior to picrust analyses), then lit review for metabolic functions to see if it aligns with metabolic results
+TW + AW –> **DESeq analysis** to figure out if there are a few specific genus / species that are affected in abundance, resulting in changes in metabolic information during picrust. Run on taxonomic-level table (phyloseq object w/OTU table + taxonomy file, prior to picrust analyses), then lit review for metabolic functions to see if it aligns with metabolic results
 
 - Test smokers high/low LDL, check which bacteria are upregulated.
 - Hope to see less difference between high/low LDL in nonsmokers.
 
-Sean + Sam -> Perform using **Chris's DESeq function (will be emailed)** on smoker/nonsmoker high/low LDL groups.
+SD + SK -> Perform using **CE's DESeq function (will be emailed)** on smoker/nonsmoker high/low LDL groups.
 
 Start manuscript drafting!
 
-- Imogen –> Introduction
-- Tiffany + Sam –> Figure 1 (diversity)
-- Sam –> Methods
-- Sean + Alice –> Discussion later...
+- IP –> Introduction
+- TW + SK –> Figure 1 (diversity)
+- SK –> Methods
+- SD + AW –> Discussion later...
 
 
 ## Nov 2
 
-### To-do:
+| Agenda item                                                                        	| Conclusion 	|
+|-----------------------------------------	|---------	|
+| Fiber results – lack of significance                        |Fiber will not be pursued further, given lack of significance at diversity as well as differential abundance / gut function. Will be included in supplementals only.  |
 
-- **Imogen:** Export all plots onto Github _(done!)_
+- **IP:** Export all plots onto Github _(done!)_
 - Combine plots 
-- **Imogen & ?:** [Lit review](https://docs.google.com/document/d/1gAc4GGjX9uzj-aR70NqgcJvRnQcLFoWcT7jLYDcZJVs/edit) on results: pathways up/down regulated in LDL samples
-- **Imogen:**  Lit review on results: pathways needed to be excluded in PCA plots _(done! dead end -i)_
+- **IP & ?:** [Lit review](https://docs.google.com/document/d/1gAc4GGjX9uzj-aR70NqgcJvRnQcLFoWcT7jLYDcZJVs/edit) on results: pathways up/down regulated in LDL samples
+- **IP:**  Lit review on results: pathways needed to be excluded in PCA plots _(done! dead end -i)_
 - Compare top 10 results between LinDA, deseq, aldex2, edgeR
-- **Tiffany:** [Alpha diversity signifiance comparison](https://docs.google.com/presentation/d/1pIplkOJ19TjLork48qhRfuhgrWncWUlC/edit?usp=sharing&ouid=103207874254987114452&rtpof=true&sd=true)
+- **TW:** [Alpha diversity signifiance comparison](https://docs.google.com/presentation/d/1pIplkOJ19TjLork48qhRfuhgrWncWUlC/edit?usp=sharing&ouid=103207874254987114452&rtpof=true&sd=true)
 
 ## Oct 26
 
 | Agenda item                                                                        	| Conclusion 	|
 |-----------------------------------------	|---------	|
 | Picrust tutorial                        |See file  |
-| Looking over alpha metrics – LDL (Tiffany)    |LDL appears to have no effect on a-diversity so has no big impact on compositional changes, but don't disregard LDL as there may still be smaller-level functional changes occuring (DESeq2 will tell us if specific species are up/downregulated)|
-| Looking over alpha metrics – fiber (Tiffany) | Seems that without smoking fiber intake doesn't affect alpha diversity, but with smoking there is an impact: smoking + high fiber appears to correspond to lower alpha diversity (specifically no difference in evenness, but change in richness)* | 
+| Looking over alpha metrics – LDL (TW)    |LDL appears to have no effect on a-diversity so has no big impact on compositional changes, but don't disregard LDL as there may still be smaller-level functional changes occuring (DESeq2 will tell us if specific species are up/downregulated)|
+| Looking over alpha metrics – fiber (TW) | Seems that without smoking fiber intake doesn't affect alpha diversity, but with smoking there is an impact: smoking + high fiber appears to correspond to lower alpha diversity (specifically no difference in evenness, but change in richness)* | 
 | Looking over ß diversity | Axes are very small % meaning they show a very small amount of diversity difference between the two. Thus there is not a huge overarching impact of fiber or LDL on ß diveristy|
 
 *For the paper, use Observed, Chao1, Shannon.
@@ -97,11 +99,11 @@ Start manuscript drafting!
 
 Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_out_pipeline/pathways_out/**
 
-- Sam –> Pure smoking
-- Imogen –> Fiber, nonsmoking
-- Sean –> Fiber, smoking
-- Alice –> LDL, nonsmoking
-- Tiffany –> LDL, smoking
+- SK –> Pure smoking
+- IP –> Fiber, nonsmoking
+- SD –> Fiber, smoking
+- AW –> LDL, nonsmoking
+- TW –> LDL, smoking
 
 
 ## Oct 19
@@ -115,13 +117,13 @@ Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_ou
 
 ### Action items
 
-- Fix Chris's suggestions in proposal, email to Chris by Friday noon (ALL)
-- Run picrust on dataset (Imogen)
-- Set up R project on github (Imogen)
-- First milestone: make phyloseq object (Alice)
-- Rarefy data after phyloseq (Sean) using 22700 -> phyloseq_object_final
-- Alpha diversity analyses after phyloseq_final (Tiffany)
-- Beta diversity analyses after phyloseq_final (Sam)
+- Fix CL's suggestions in proposal, email to CL by Friday noon (ALL)
+- Run picrust on dataset (IP)
+- Set up R project on github (IP)
+- First milestone: make phyloseq object (AW)
+- Rarefy data after phyloseq (SD) using 22700 -> phyloseq_object_final
+- Alpha diversity analyses after phyloseq_final (TW)
+- Beta diversity analyses after phyloseq_final (SK)
 
 ## Oct 12
 
@@ -133,7 +135,7 @@ Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_ou
 | Assign proposal roles                                                              	|[Done](#proposal-allocations)|
 | Discuss categorisation cutoffs for fibre/cholesterol / other variables of interest 	| Fibre cutoffs: above/below 21g(f), 30g(m). LDL cutoffs: <100mg(mf). |
 | Determine ^ associated data manipulation (i.e. categorisation) 	|         	|
-| Assign metadata filtering / wrangling role(s)                                      	|Tiffany|
+| Assign metadata filtering / wrangling role(s)                                      	|TW|
 
 ### Project Aims
 
@@ -162,17 +164,17 @@ Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_ou
 
 ### Proposal allocations
 
-- Intro & Background –> Imogen
-- Objectives, Aims & Rationale –> Alice
-- Approach & Timeline –> Sean
-- Overview flowchart –> Tiffany/Sam
-- QIIME processing (cutoff @248) –> Tiffany/Sam
+- Intro & Background –> TW
+- Objectives, Aims & Rationale –> AW
+- Approach & Timeline –> SD
+- Overview flowchart –> TW/SK
+- QIIME processing (cutoff @248) –> TW/SK
 
 ### Action items
 
-- Submit proposal to Chris by Oct 17th for feedback
-- Metadata filtering asap –> Tiffany
-- Look at qza repseqs table dmux files, rarefaction curve on **Oct 17th** –> Sam/Tiffany
+- Submit proposal to CL by Oct 17th for feedback
+- Metadata filtering asap –> TW
+- Look at qza repseqs table dmux files, rarefaction curve on **Oct 17th** –> SK/TW
 - If possible, a-diversity analysis by **Oct 17t** for smoking/nonsmoking populations.
 
 **Timeline** 
@@ -189,7 +191,7 @@ Our options: look for confounding variables (above), or use picrust for metaboli
 Things to decide upon: timeline/process, assigning roles and draft deadlines. Using truncation of 225 as this is what the cardiometabolic paper used, and we are investigating their confounding variable(?)
 
 ### Meeting notes
-*notetaker: Imogen*
+*notetaker: IP*
 
 *Designing question* – confounding variable is a good first aim, but what is the question itself? Need to have background in proposal as to why you are studying this field, drawing from literature.
 
@@ -225,7 +227,7 @@ Things to decide upon: timeline/process, assigning roles and draft deadlines. Us
 
 ### Action items
 
-- Chris will send picrust information –> download software, learn how to run
+- CE will send picrust information –> download software, learn how to run
 - Decide who is doing what for the proposal.
 
 
@@ -237,5 +239,5 @@ Hope to identify the confounding variable demonstrated in a prior student [paper
 
 Question: what is the confounding variable that causes the population clustering seen above?
 
-**Action items:** start QIIME processing (Sam, with group helping!) + begin project proposal
+**Action items:** start QIIME processing (SK, with group helping!) + begin project proposal
 
