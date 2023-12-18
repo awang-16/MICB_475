@@ -73,8 +73,6 @@ Start manuscript drafting!
 
 ## Nov 2
 
-### Agenda i
-
 | Agenda item                                                                        	| Conclusion 	|
 |-----------------------------------------	|---------	|
 | Fiber results – lack of significance                        |Fiber will not be pursued further, given lack of significance at diversity as well as differential abundance / gut function. Will be included in supplementals only.  |
