@@ -61,13 +61,13 @@ TW + AW –> **DESeq analysis** to figure out if there are a few specific genus 
 - Test smokers high/low LDL, check which bacteria are upregulated.
 - Hope to see less difference between high/low LDL in nonsmokers.
 
-SD + SK -> Perform using **CE's DESeq function (will be emailed)** on smoker/nonsmoker high/low LDL groups.
+SD + SKA -> Perform using **CE's DESeq function (will be emailed)** on smoker/nonsmoker high/low LDL groups.
 
 Start manuscript drafting!
 
 - IP –> Introduction
-- TW + SK –> Figure 1 (diversity)
-- SK –> Methods
+- TW + SKA –> Figure 1 (diversity)
+- SKA –> Methods
 - SD + AW –> Discussion later...
 
 
@@ -99,7 +99,7 @@ Start manuscript drafting!
 
 Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_out_pipeline/pathways_out/**
 
-- SK –> Pure smoking
+- SKA –> Pure smoking
 - IP –> Fiber, nonsmoking
 - SD –> Fiber, smoking
 - AW –> LDL, nonsmoking
@@ -123,7 +123,7 @@ Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_ou
 - First milestone: make phyloseq object (AW)
 - Rarefy data after phyloseq (SD) using 22700 -> phyloseq_object_final
 - Alpha diversity analyses after phyloseq_final (TW)
-- Beta diversity analyses after phyloseq_final (SK)
+- Beta diversity analyses after phyloseq_final (SKA)
 
 ## Oct 12
 
@@ -167,14 +167,14 @@ Picrust analyses: run using pathways table found in **picrust2-2.5.2/picrust2_ou
 - Intro & Background –> TW
 - Objectives, Aims & Rationale –> AW
 - Approach & Timeline –> SD
-- Overview flowchart –> TW/SK
-- QIIME processing (cutoff @248) –> TW/SK
+- Overview flowchart –> TW/SKA
+- QIIME processing (cutoff @248) –> TW/SKA
 
 ### Action items
 
 - Submit proposal to CL by Oct 17th for feedback
 - Metadata filtering asap –> TW
-- Look at qza repseqs table dmux files, rarefaction curve on **Oct 17th** –> SK/TW
+- Look at qza repseqs table dmux files, rarefaction curve on **Oct 17th** –> SKA/TW
 - If possible, a-diversity analysis by **Oct 17t** for smoking/nonsmoking populations.
 
 **Timeline** 
@@ -239,5 +239,5 @@ Hope to identify the confounding variable demonstrated in a prior student [paper
 
 Question: what is the confounding variable that causes the population clustering seen above?
 
-**Action items:** start QIIME processing (SK, with group helping!) + begin project proposal
+**Action items:** start QIIME processing (SKA, with group helping!) + begin project proposal
 
