@@ -238,7 +238,19 @@ qiime diversity alpha-rarefaction \
     --o-visualization alpha-rarefaction.qzv
 
 #### Oct 14, 2023 - CL ####
+# Chris put two new files on the server in "data/columbia/" called
+# alpha-rarefaction_CL.qzv
+# metadata_categorized_CL.txt 
 
+# In the metadata, there is a new column called "uniqueID" to look at all samples. (basically the same as barcode sequence)
+# The max sampling depth to 40000 to see the plateau in more detail. (IE. more data points on the curve).
+# Alpha-rarefaction updates
+qiime diversity alpha-rarefaction   
+  --i-table feature-frequency-filtered-table-no-mitochondria-no-chloroplast.qza     
+  --i-phylogeny rooted-tree.qza     
+  --p-max-depth 40000     
+  --m-metadata-file metadata_categorized_CL.txt     
+--o-visualization alpha-rarefaction_CL.qzv
 
 #### Oct 17, 2023 - TW ####
 # Calculate alpha- and beta-diversity metrics
