@@ -5,13 +5,13 @@ The file MICB475_R_code.Rmd should be run to reproduce all figures seen in the m
 
 ### R code outline
 
-**Alpha diversity** (line 54): perform alpha-diversity analyses (Observed, Shannon, Chao1, ACE, Simpson, InvSimpson, and Fisher) on the data as categorised both by smoking and LDL status, and by smoking and fiber status.
+**Alpha diversity** (line 54): performs alpha-diversity analyses (Observed, Shannon, Chao1, ACE, Simpson, InvSimpson, and Fisher) on the data as categorised both by smoking and LDL status, and by smoking and fiber status. Produces box plots and statistical test results (One-Way ANOVA).
 
-Beta diversity (line 173)
+**Beta diversity** (line 173): performs beta-diversity analyses (weighted and unweighted unifrac, Bray-Curtis, and Jaccard) using the phyloseq package on the data as categorised above. Produces PCA plots, performs statistical tests (PERMANOVA).
 
-DESeq2 analysis (line 251)
+**DESeq2 analysis** (line 251): uses DESEq2 package to perform differential abundance analysis, producing volcano and bar plots to show differentially abundant ASVs labelled at the genera level.
 
-PICRUSt2 analysis (line 348)
+**PICRUSt2 analysis** (line 348): uses ggpicrust2 package to analyse pathway patterns and changes in microbiota function, producing bar plots annotated with function.
 
 
 ### Papers referenced
