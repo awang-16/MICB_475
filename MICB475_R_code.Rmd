@@ -60,6 +60,7 @@ estimate_richness(phyloseq_object_final_highcount)
 phylo_dist <- pd(t(otu_table(phyloseq_object_final_highcount)), phy_tree(phyloseq_object_final_highcount),
                  include.root=F)
 sample_data(phyloseq_object_final_highcount)$PD <- phylo_dist$PD
+meta = sample_data(phyloseq_object_final_highcount)
 
 ### Categorise data by smoking and diet for analysis
 sample_data(phyloseq_object_final_highcount)[["legend2"]] <- paste(sample_data(phyloseq_object_final_highcount)[[32]], sample_data(phyloseq_object_final_highcount)[[38]]) 
@@ -93,10 +94,9 @@ alpha_LDL <- phyloseq_object_final_highcount %>%
   theme(strip.text = element_text(face = "bold", size = 25))+           #adjust headings
   scale_fill_manual(values = sample_colors)+                            #set fill colors
   theme(plot.title=element_text(size = 25, face = "bold", hjust = 0.5))
-ggsave("figures/alpha_LDL.png",alpha_LDL)
+  ggsave("figures/alpha_LDL.png",alpha_LDL, height=10, width=40,limitsize = FALSE)
 
 ### Generate and print statistical scores
-meta = sample_data(phyloseq_object_final_highcount)
 alphadiv <- estimate_richness(phyloseq_object_final_highcount, measures = c("Observed", "Shannon", "Chao1", "ACE", "Simpson", "InvSimpson", "Fisher")) %>% rownames_to_column(var = "legend") 
 colnames(alphadiv)[1] = "uniqueID"
 meta_alpha = inner_join(meta, alphadiv, by = "uniqueID")
@@ -139,7 +139,7 @@ alpha_fiber <- phyloseq_object_final_highcount %>%
   theme(strip.text = element_text(face = "bold", size = 25))+           #adjust headings
   scale_fill_manual(values = sample_colors)+                            #set fill colors
   theme(plot.title=element_text(size = 25, face = "bold", hjust = 0.5))
-ggsave("figures/alpha_fiber.png",alpha_fiber)
+ggsave("figures/alpha_fiber.png",alpha_fiber, height=10, width=40,limitsize = FALSE)
 
 ### Generate and print statistical scores
 meta = sample_data(phyloseq_object_final_highcount)
