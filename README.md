@@ -1,5 +1,5 @@
 # MICB475 Project 2 Lab notebook (Team 4)
-This repository contains ongoing notes on project 2, compiled by AW, IP, SD, SKA, and TW. The project aims to elucidate the combined impacts of diet Westernisation (low fibre consumption and high blood LDL levels) and smoking on gut microbial metabolism.
+This repository contains ongoing notes on project 2, compiled by AW, IP, SD, SKA, and TW. The project aims to elucidate the combined impacts of diet Westernisation (low fibre consumption and high blood LDL levels) and smoking on gut microbial metabolism. It uses a dataset collected by de la Cuesta-Zuluaga et al (2018) shown below, which was processed as described in the [dataset overview file](https://github.com/awang-16/MICB_475/blob/main/dataset_overview.md).
 
 The file [MICB475_R_code.Rmd](https://github.com/awang-16/MICB_475/blob/main/MICB475_R_code.Rmd) should be run to reproduce all figures seen in the manuscript. It loads data produced by QIIME2 and PICRUSt2 processing, the bash scripts for which are also displayed here.
 
