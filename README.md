@@ -19,7 +19,7 @@ The file MICB475_R_code.Rmd should be run to reproduce all figures seen in the m
 
    1.1. bin data based on fiber and cholesterol levels (H/L)
 
-   *Figure outputs: All a-diversity metrics (Shannons, Faith's PD) in boxplots by non/smoke and diet categories*
+   *Figure outputs: All alpha-diversity metrics (Shannons, Faith's PD) in boxplots by non/smoking and fiber/LDL categories. All beta-diversity metrics (unweighted, weighted unifrac, Bray-Curtis) in PCA plots with PERMANOVA analysis*
    
 2. Analyse changes in metabolic function between smokers and non-smokers, using picrust.
 
@@ -35,7 +35,7 @@ The file MICB475_R_code.Rmd should be run to reproduce all figures seen in the m
 
 4. Within the smoking population, how how does LDL intake affect metabolic gut function?
 
-   Same as A3.
+   _Same as A3._
 
 
 ### Papers referenced
